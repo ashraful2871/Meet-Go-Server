@@ -5,6 +5,9 @@
   "main": "index.ts",
   "module": "index.ts",
   "private": true,
+  "prisma": {
+    "schema": "./prisma/schema"
+  },
   "peerDependencies": {
     "typescript": "^5"
   },
