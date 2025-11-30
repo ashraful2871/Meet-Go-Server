@@ -1,0 +1,47 @@
+{
+  "name": "meet-go-backend",
+  "version": "1.0.0",
+  "description": "Backend for Meet & Go application",
+  "main": "index.ts",
+  "module": "index.ts",
+  "private": true,
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "dev": "ts-node-dev --loader ts-node/esm --respawn --transpile-only ./src/server.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.16.3",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/http-status-codes": "^1.2.0",
+    "@types/multer": "^2.0.0",
+    "@types/nodemailer": "^7.0.3",
+    "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.7.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "http-status": "^2.1.0",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^7.0.10",
+    "openai": "^6.5.0",
+    "stripe": "^19.1.0",
+    "uuid": "^13.0.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.5.0",
+    "prisma": "^6.17.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.2"
+  }
+}
