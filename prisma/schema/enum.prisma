@@ -1,0 +1,18 @@
+enum UserRole {
+    USER
+    HOST
+    ADMIN
+}
+
+enum UserStatus {
+    ACTIVE
+    INACTIVE
+    SUSPENDED
+    DELETED
+    BLOCKED
+}
+
+enum Gender {
+    MALE
+    FEMALE
+}
