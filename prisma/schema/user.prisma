@@ -17,65 +17,51 @@ model User {
   IsVerified         Boolean            @default(true)
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
-  host               Host?
   admin              Admin?
   events             Event[]
   eventParticipants  EventParticipant[]
   payments           Payment[]
   reviews            Review[]
+  host               Host?
 }
 
 model Host {
-  id            String  @id @default(uuid())
-  email         String  @unique
-  profilePhoto  String?
-  name          String
-  contactNumber String?
-
-  // Professional Info
-  bio         String?
-  experience  String?
-  specialties String? // comma separated or JSON
-
-  rating      Float? @default(0)
-  reviewCount Int?   @default(0)
-
-  // Social Links
-  websiteUrl   String?
-  facebookUrl  String?
-  instagramUrl String?
-  linkedinUrl  String?
-
-  // Location
-  city    String?
-  country String?
-  address String?
-
-  // Verification
-  isVerified         Boolean             @default(false)
-  identityDocument   String?
-  verificationStatus VerificationStatus? @default(PENDING)
-
-  // Settings / Preferences
-  preferredCommunication HostContactPreference? @default(EMAIL)
-  payoutMethod           String? // bkash, bank, stripe, nagad
+  id                     String                @id @default(uuid())
+  userId                 String                @unique
+  email                  String                @unique
+  profilePhoto           String?
+  name                   String
+  contactNumber          String?
+  bio                    String?
+  experience             String?
+  specialties            String?
+  rating                 Float?                @default(0)
+  reviewCount            Int?                  @default(0)
+  websiteUrl             String?
+  facebookUrl            String?
+  instagramUrl           String?
+  linkedinUrl            String?
+  city                   String?
+  country                String?
+  address                String?
+  isVerified             Boolean               @default(false)
+  identityDocument       String?
+  verificationStatus     VerificationStatus    @default(PENDING)
+  preferredCommunication HostContactPreference @default(EMAIL)
+  payoutMethod           String?
   payoutAccount          String?
-  maxEventLimit          Int?                   @default(10)
-
-  // Analytics
-  totalEventsHosted Int?      @default(0)
-  totalParticipants Int?      @default(0)
-  totalEarnings     Float?    @default(0)
-  lastActiveAt      DateTime?
-
-  isDeleted Boolean    @default(false)
-  status    UserStatus @default(ACTIVE)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-
-  user     User      @relation(fields: [email], references: [id])
-  payments Payment[]
-  reviews  Review[]
+  maxEventLimit          Int?                  @default(10)
+  totalEventsHosted      Int?                  @default(0)
+  totalParticipants      Int?                  @default(0)
+  totalEarnings          Float?                @default(0)
+  lastActiveAt           DateTime?
+  isDeleted              Boolean               @default(false)
+  status                 UserStatus            @default(ACTIVE)
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
+  user                   User                  @relation(fields: [userId], references: [id])
+  payments               Payment[]
+  reviews                Review[]
 }
 
 model Admin {
