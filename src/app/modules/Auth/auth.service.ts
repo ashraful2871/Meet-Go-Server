@@ -24,7 +24,6 @@ const userRegistration = async (payload: any) => {
 };
 
 //login service
-
 const login = async (payload: { email: string; password: string }) => {
   const user = await prisma.user.findUniqueOrThrow({
     where: {
@@ -61,7 +60,47 @@ const login = async (payload: { email: string; password: string }) => {
   };
 };
 
+//change password service
+
+const changePassword = async (user: any, payload: any) => {
+  const userData = await prisma.user.findUniqueOrThrow({
+    where: {
+      email: user.email,
+      status: UserStatus.ACTIVE,
+    },
+  });
+
+  if (!userData) {
+    throw new ApiError("User not found", StatusCodes.NOT_FOUND);
+  }
+
+  const isCorrectPassword = await bcrypt.compare(
+    payload.oldPassword,
+    userData.password
+  );
+  if (!isCorrectPassword) {
+    throw new ApiError("Old password is incorrect", StatusCodes.UNAUTHORIZED);
+  }
+
+  const hashedNewPassword = await bcrypt.hash(payload.newPassword, 10);
+
+  await prisma.user.update({
+    where: {
+      email: user.email,
+    },
+    data: {
+      password: hashedNewPassword,
+      needPasswordChange: false,
+    },
+  });
+
+  return {
+    message: "Password changed successfully",
+  };
+};
+
 export const authServices = {
   userRegistration,
   login,
+  changePassword,
 };
