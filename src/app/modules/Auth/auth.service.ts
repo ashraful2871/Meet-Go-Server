@@ -99,8 +99,111 @@ const changePassword = async (user: any, payload: any) => {
   };
 };
 
+const getMe = async (session: any) => {
+  const accessToken = session.accessToken;
+
+  const decodedToken = jwtHelper.verifyToken(
+    accessToken,
+    config.jwt.jwt_secret as Secret
+  );
+
+  const userData = await prisma.user.findUniqueOrThrow({
+    where: {
+      email: decodedToken.email,
+      status: UserStatus.ACTIVE,
+    },
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      name: true,
+      status: true,
+      needPasswordChange: true,
+      phoneNumber: true,
+      address: true,
+      profilePicture: true,
+      bio: true,
+      dateOfBirth: true,
+      gender: true,
+      hobbies: true,
+      interests: true,
+      IsVerified: true,
+      createdAt: true,
+      updatedAt: true,
+
+      // Admin Profile (if exists)
+      admin: {
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          profilePhoto: true,
+          phoneNumber: true,
+          address: true,
+          city: true,
+          country: true,
+          canManageUsers: true,
+          canManageHosts: true,
+          canManageEvents: true,
+          canManagePayments: true,
+          canVerifyHosts: true,
+          canSuspendAccounts: true,
+          lastLoginAt: true,
+          lastActiveAt: true,
+          loginCount: true,
+          adminNotes: true,
+          status: true,
+          isDeleted: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
+
+      // Host Profile (if exists)
+      host: {
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          profilePhoto: true,
+          contactNumber: true,
+          bio: true,
+          experience: true,
+          specialties: true,
+          rating: true,
+          reviewCount: true,
+          websiteUrl: true,
+          facebookUrl: true,
+          instagramUrl: true,
+          linkedinUrl: true,
+          city: true,
+          country: true,
+          address: true,
+          isVerified: true,
+          identityDocument: true,
+          verificationStatus: true,
+          preferredCommunication: true,
+          payoutMethod: true,
+          payoutAccount: true,
+          maxEventLimit: true,
+          totalEventsHosted: true,
+          totalParticipants: true,
+          totalEarnings: true,
+          lastActiveAt: true,
+          isDeleted: true,
+          status: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
+    },
+  });
+  return userData;
+};
+
 export const authServices = {
   userRegistration,
   login,
   changePassword,
+  getMe,
 };

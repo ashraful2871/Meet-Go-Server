@@ -12,6 +12,18 @@ enum UserStatus {
     BLOCKED
 }
 
+enum VerificationStatus {
+    PENDING
+    VERIFIED
+    REJECTED
+}
+
+enum HostContactPreference {
+    EMAIL
+    PHONE
+    BOTH
+}
+
 enum Gender {
     MALE
     FEMALE

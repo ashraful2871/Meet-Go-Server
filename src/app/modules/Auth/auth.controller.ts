@@ -42,7 +42,6 @@ const login = catchAsync(async (req: Request, res: Response) => {
 });
 
 //change password controller
-
 const changePassword = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
     const user = req.user;
@@ -55,9 +54,21 @@ const changePassword = catchAsync(
     });
   }
 );
+//change password controller
+const getMe = catchAsync(async (req: Request, res: Response) => {
+  const userSession = req.cookies;
+  const result = await authServices.getMe(userSession);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "User retrieved successfully",
+    data: result,
+  });
+});
 
 export const authController = {
   userRegistration,
   login,
   changePassword,
+  getMe,
 };

@@ -14,7 +14,97 @@ model User {
     phoneNumber        String?
     hobbies            String[]   @default([])
     interests          String[]   @default([])
-    IsVerified         Boolean    @default(false)
+    IsVerified         Boolean    @default(true)
     createdAt          DateTime   @default(now())
     updatedAt          DateTime   @updatedAt
+    host               Host?
+    admin              Admin?
+}
+
+model Host {
+    id            String  @id @default(uuid())
+    email         String  @unique
+    profilePhoto  String?
+    name          String
+    contactNumber String?
+
+    // Professional Info
+    bio         String?
+    experience  String?
+    specialties String? // comma separated or JSON
+
+    rating      Float? @default(0)
+    reviewCount Int?   @default(0)
+
+    // Social Links
+    websiteUrl   String?
+    facebookUrl  String?
+    instagramUrl String?
+    linkedinUrl  String?
+
+    // Location
+    city    String?
+    country String?
+    address String?
+
+    // Verification
+    isVerified         Boolean             @default(false)
+    identityDocument   String?
+    verificationStatus VerificationStatus? @default(PENDING)
+
+    // Settings / Preferences
+    preferredCommunication HostContactPreference? @default(EMAIL)
+    payoutMethod           String? // bkash, bank, stripe, nagad
+    payoutAccount          String?
+    maxEventLimit          Int?                   @default(10)
+
+    // Analytics
+    totalEventsHosted Int?      @default(0)
+    totalParticipants Int?      @default(0)
+    totalEarnings     Float?    @default(0)
+    lastActiveAt      DateTime?
+
+    isDeleted Boolean    @default(false)
+    status    UserStatus @default(ACTIVE)
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+
+    user User @relation(fields: [email], references: [id])
+}
+
+model Admin {
+    id           String  @id @default(uuid())
+    email        String  @unique
+    name         String
+    profilePhoto String?
+
+    // Contact Info
+    phoneNumber String?
+    address     String?
+    city        String?
+    country     String?
+
+    // Admin Permissions (RBAC)
+    canManageUsers     Boolean @default(true)
+    canManageHosts     Boolean @default(true)
+    canManageEvents    Boolean @default(true)
+    canManagePayments  Boolean @default(true)
+    canVerifyHosts     Boolean @default(true)
+    canSuspendAccounts Boolean @default(true)
+
+    // Activity Tracking
+    lastLoginAt  DateTime?
+    lastActiveAt DateTime?
+    loginCount   Int?      @default(0)
+
+    // Admin Notes & Metadata
+    adminNotes String?
+    status     UserStatus @default(ACTIVE)
+    isDeleted  Boolean    @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relation to User
+    user User @relation(fields: [email], references: [email])
 }

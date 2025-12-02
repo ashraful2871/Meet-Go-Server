@@ -14,4 +14,10 @@ router.post(
   authController.changePassword
 );
 
+router.get(
+  "/me",
+  auth(UserRole.ADMIN, UserRole.USER, UserRole.ADMIN),
+  authController.getMe
+);
+
 export const authRoutes = router;
