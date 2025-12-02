@@ -7,5 +7,10 @@ const router = Router();
 
 //create Host
 router.patch("/request-host", auth(UserRole.USER), userController.requestHost);
-
+//update Host verification status
+router.patch(
+  "/host-verification/:id",
+  auth(UserRole.ADMIN),
+  userController.updateHostVerificationStatus
+);
 export const userRoutes = router;

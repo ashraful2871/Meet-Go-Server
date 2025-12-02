@@ -16,7 +16,25 @@ const requestHost = catchAsync(
     });
   }
 );
+const updateHostVerificationStatus = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const { id } = req.params;
+    const { status, rejectionReason } = req.body;
+    const result = await userService.updateHostVerificationStatus(
+      id,
+      status,
+      rejectionReason
+    );
+    sendResponse(res, {
+      statusCode: StatusCodes.CREATED,
+      success: true,
+      message: "Host verification status updated successfully",
+      data: result,
+    });
+  }
+);
 
 export const userController = {
   requestHost,
+  updateHostVerificationStatus,
 };

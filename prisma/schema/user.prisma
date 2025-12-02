@@ -47,6 +47,7 @@ model Host {
   isVerified             Boolean               @default(false)
   identityDocument       String?
   verificationStatus     VerificationStatus    @default(PENDING)
+  rejectionReason        String?
   preferredCommunication HostContactPreference @default(EMAIL)
   payoutMethod           String?
   payoutAccount          String?

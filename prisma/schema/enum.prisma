@@ -13,6 +13,7 @@ enum UserStatus {
 }
 
 enum VerificationStatus {
+  APPROVED
   PENDING
   VERIFIED
   REJECTED
