@@ -1,110 +1,116 @@
 model User {
-    id                 String     @id @default(uuid())
-    email              String     @unique
-    password           String
-    name               String
-    role               UserRole   @default(USER)
-    needPasswordChange Boolean    @default(false)
-    status             UserStatus @default(ACTIVE)
-    gender             Gender?
-    profilePicture     String?
-    bio                String?
-    dateOfBirth        DateTime?
-    address            String?
-    phoneNumber        String?
-    hobbies            String[]   @default([])
-    interests          String[]   @default([])
-    IsVerified         Boolean    @default(true)
-    createdAt          DateTime   @default(now())
-    updatedAt          DateTime   @updatedAt
-    host               Host?
-    admin              Admin?
+  id                 String             @id @default(uuid())
+  email              String             @unique
+  password           String
+  name               String
+  role               UserRole           @default(USER)
+  needPasswordChange Boolean            @default(false)
+  status             UserStatus         @default(ACTIVE)
+  gender             Gender?
+  profilePicture     String?
+  bio                String?
+  dateOfBirth        DateTime?
+  address            String?
+  phoneNumber        String?
+  hobbies            String[]           @default([])
+  interests          String[]           @default([])
+  IsVerified         Boolean            @default(true)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  host               Host?
+  admin              Admin?
+  events             Event[]
+  eventParticipants  EventParticipant[]
+  payments           Payment[]
+  reviews            Review[]
 }
 
 model Host {
-    id            String  @id @default(uuid())
-    email         String  @unique
-    profilePhoto  String?
-    name          String
-    contactNumber String?
+  id            String  @id @default(uuid())
+  email         String  @unique
+  profilePhoto  String?
+  name          String
+  contactNumber String?
 
-    // Professional Info
-    bio         String?
-    experience  String?
-    specialties String? // comma separated or JSON
+  // Professional Info
+  bio         String?
+  experience  String?
+  specialties String? // comma separated or JSON
 
-    rating      Float? @default(0)
-    reviewCount Int?   @default(0)
+  rating      Float? @default(0)
+  reviewCount Int?   @default(0)
 
-    // Social Links
-    websiteUrl   String?
-    facebookUrl  String?
-    instagramUrl String?
-    linkedinUrl  String?
+  // Social Links
+  websiteUrl   String?
+  facebookUrl  String?
+  instagramUrl String?
+  linkedinUrl  String?
 
-    // Location
-    city    String?
-    country String?
-    address String?
+  // Location
+  city    String?
+  country String?
+  address String?
 
-    // Verification
-    isVerified         Boolean             @default(false)
-    identityDocument   String?
-    verificationStatus VerificationStatus? @default(PENDING)
+  // Verification
+  isVerified         Boolean             @default(false)
+  identityDocument   String?
+  verificationStatus VerificationStatus? @default(PENDING)
 
-    // Settings / Preferences
-    preferredCommunication HostContactPreference? @default(EMAIL)
-    payoutMethod           String? // bkash, bank, stripe, nagad
-    payoutAccount          String?
-    maxEventLimit          Int?                   @default(10)
+  // Settings / Preferences
+  preferredCommunication HostContactPreference? @default(EMAIL)
+  payoutMethod           String? // bkash, bank, stripe, nagad
+  payoutAccount          String?
+  maxEventLimit          Int?                   @default(10)
 
-    // Analytics
-    totalEventsHosted Int?      @default(0)
-    totalParticipants Int?      @default(0)
-    totalEarnings     Float?    @default(0)
-    lastActiveAt      DateTime?
+  // Analytics
+  totalEventsHosted Int?      @default(0)
+  totalParticipants Int?      @default(0)
+  totalEarnings     Float?    @default(0)
+  lastActiveAt      DateTime?
 
-    isDeleted Boolean    @default(false)
-    status    UserStatus @default(ACTIVE)
-    createdAt DateTime   @default(now())
-    updatedAt DateTime   @updatedAt
+  isDeleted Boolean    @default(false)
+  status    UserStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
-    user User @relation(fields: [email], references: [id])
+  user     User      @relation(fields: [email], references: [id])
+  payments Payment[]
+  reviews  Review[]
 }
 
 model Admin {
-    id           String  @id @default(uuid())
-    email        String  @unique
-    name         String
-    profilePhoto String?
+  id           String  @id @default(uuid())
+  email        String  @unique
+  name         String
+  profilePhoto String?
 
-    // Contact Info
-    phoneNumber String?
-    address     String?
-    city        String?
-    country     String?
+  // Contact Info
+  phoneNumber String?
+  address     String?
+  city        String?
+  country     String?
 
-    // Admin Permissions (RBAC)
-    canManageUsers     Boolean @default(true)
-    canManageHosts     Boolean @default(true)
-    canManageEvents    Boolean @default(true)
-    canManagePayments  Boolean @default(true)
-    canVerifyHosts     Boolean @default(true)
-    canSuspendAccounts Boolean @default(true)
+  // Admin Permissions (RBAC)
+  canManageUsers     Boolean @default(true)
+  canManageHosts     Boolean @default(true)
+  canManageEvents    Boolean @default(true)
+  canManagePayments  Boolean @default(true)
+  canVerifyHosts     Boolean @default(true)
+  canSuspendAccounts Boolean @default(true)
 
-    // Activity Tracking
-    lastLoginAt  DateTime?
-    lastActiveAt DateTime?
-    loginCount   Int?      @default(0)
+  // Activity Tracking
+  lastLoginAt  DateTime?
+  lastActiveAt DateTime?
+  loginCount   Int?      @default(0)
 
-    // Admin Notes & Metadata
-    adminNotes String?
-    status     UserStatus @default(ACTIVE)
-    isDeleted  Boolean    @default(false)
+  // Admin Notes & Metadata
+  adminNotes String?
+  status     UserStatus @default(ACTIVE)
+  isDeleted  Boolean    @default(false)
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    // Relation to User
-    user User @relation(fields: [email], references: [email])
+  // Relation to User
+  user User @relation(fields: [email], references: [email])
 }

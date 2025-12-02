@@ -1,47 +1,47 @@
 model Event {
-    id                   String             @id @default(uuid())
-    hostId               String
-    name                 String
-    type                 String // Concert, Hike, Board Game, Tech Meetup
-    categoryId           String?
-    description          String?
-    image                String?
-    eventBookingDeadline DateTime?
-    date                 DateTime
-    time                 String?
-    location             String
-    city                 String?
-    country              String?
-    minParticipants      Int?
-    maxParticipants      Int?
-    joiningFee           Float?             @default(0)
-    status               EventStatus        @default(OPEN)
-    createdAt            DateTime           @default(now())
-    updatedAt            DateTime           @updatedAt
-    host                 User               @relation(fields: [hostId], references: [id])
-    eventCategory        EventCategory?     @relation(fields: [categoryId], references: [id])
-    eventParticipants    EventParticipant[]
-    reviews              Review[]
-    payments             Payment[]
+  id                   String             @id @default(uuid())
+  hostId               String
+  name                 String
+  type                 String // Concert, Hike, Board Game, Tech Meetup
+  categoryId           String?
+  description          String?
+  image                String?
+  eventBookingDeadline DateTime?
+  date                 DateTime
+  time                 String?
+  location             String
+  city                 String?
+  country              String?
+  minParticipants      Int?
+  maxParticipants      Int?
+  joiningFee           Float?             @default(0)
+  status               EventStatus        @default(OPEN)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  host                 User               @relation(fields: [hostId], references: [id])
+  eventCategory        EventCategory?     @relation(fields: [categoryId], references: [id])
+  eventParticipants    EventParticipant[]
+  reviews              Review[]
+  payments             Payment[]
 }
 
 model EventCategory {
-    id     String  @id @default(uuid())
-    name   String  @unique
-    events Event[]
+  id     String  @id @default(uuid())
+  name   String  @unique
+  events Event[]
 }
 
 model EventParticipant {
-    id            String            @id @default(uuid())
-    eventId       String
-    userId        String
-    status        ParticipantStatus @default(JOINED) // joined / cancelled / completed
-    bookingStatus PaymentStatus     @default(PENDING) // pending / completed / failed / refunded
-    paymentId     String?
-    createdAt     DateTime          @default(now())
-    updatedAt     DateTime          @updatedAt
-    user          User              @relation(fields: [userId], references: [id])
-    event         Event             @relation(fields: [eventId], references: [id])
+  id            String            @id @default(uuid())
+  eventId       String
+  userId        String
+  status        ParticipantStatus @default(JOINED) // joined / cancelled / completed
+  bookingStatus PaymentStatus     @default(PENDING) // pending / completed / failed / refunded
+  paymentId     String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  user          User              @relation(fields: [userId], references: [id])
+  event         Event             @relation(fields: [eventId], references: [id])
 
-    payments Payment[]
+  payments Payment[]
 }

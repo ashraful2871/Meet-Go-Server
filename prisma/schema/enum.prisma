@@ -1,52 +1,52 @@
 enum UserRole {
-    USER
-    HOST
-    ADMIN
+  USER
+  HOST
+  ADMIN
 }
 
 enum UserStatus {
-    ACTIVE
-    INACTIVE
-    SUSPENDED
-    DELETED
-    BLOCKED
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  DELETED
+  BLOCKED
 }
 
 enum VerificationStatus {
-    PENDING
-    VERIFIED
-    REJECTED
+  PENDING
+  VERIFIED
+  REJECTED
 }
 
 enum HostContactPreference {
-    EMAIL
-    PHONE
-    BOTH
+  EMAIL
+  PHONE
+  BOTH
 }
 
 enum Gender {
-    MALE
-    FEMALE
+  MALE
+  FEMALE
 }
 
 enum EventStatus {
-    OPEN
-    CLOSED
-    UPCOMING
-    ONGOING
-    COMPLETED
-    CANCELLED
+  OPEN
+  CLOSED
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELLED
 }
 
 enum ParticipantStatus {
-    JOINED
-    CANCELLED
-    COMPLETED
+  JOINED
+  CANCELLED
+  COMPLETED
 }
 
 enum PaymentStatus {
-    PENDING
-    COMPLETED
-    FAILED
-    REFUNDED
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
 }
