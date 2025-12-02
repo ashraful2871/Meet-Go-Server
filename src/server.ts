@@ -1,34 +1,32 @@
 import { Server } from "http";
 import config from "./config";
 import app from "./app";
+import { seedAdmin } from "./app/seed/admin.seed";
 
 async function bootstrap() {
-  // This variable will hold our server instance
   let server: Server;
 
   try {
-    // Start the server
+    // Seed Admin Before Server Starts
+    await seedAdmin();
+
     server = app.listen(config.port, () => {
       console.log(`🚀 Server is running on http://localhost:${config.port}`);
     });
 
-    // Function to gracefully shut down the server
     const exitHandler = () => {
       if (server) {
         server.close(() => {
           console.log("Server closed gracefully.");
-          process.exit(1); // Exit with a failure code
+          process.exit(1);
         });
       } else {
         process.exit(1);
       }
     };
 
-    // Handle unhandled promise rejections
     process.on("unhandledRejection", (error) => {
-      console.log(
-        "Unhandled Rejection is detected, we are closing our server..."
-      );
+      console.log("Unhandled Rejection detected, closing server...");
       if (server) {
         server.close(() => {
           console.log(error);
