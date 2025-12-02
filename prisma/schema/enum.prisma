@@ -28,3 +28,25 @@ enum Gender {
     MALE
     FEMALE
 }
+
+enum EventStatus {
+    OPEN
+    CLOSED
+    UPCOMING
+    ONGOING
+    COMPLETED
+    CANCELLED
+}
+
+enum ParticipantStatus {
+    JOINED
+    CANCELLED
+    COMPLETED
+}
+
+enum PaymentStatus {
+    PENDING
+    COMPLETED
+    FAILED
+    REFUNDED
+}

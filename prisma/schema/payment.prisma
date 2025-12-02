@@ -1,0 +1,17 @@
+model Payment {
+    id            String            @id @default(uuid())
+    eventId       String
+    userId        String
+    hostId        String
+    participantId String?
+    amount        Float
+    currency      String            @default("BDT")
+    provider      String // stripe, sslcommerz, amarpay
+    status        PaymentStatus     @default(PENDING)
+    transactionId String?
+    createdAt     DateTime          @default(now())
+    event         Event             @relation(fields: [eventId], references: [id])
+    user          User              @relation(fields: [userId], references: [id])
+    host          Host              @relation(fields: [hostId], references: [id])
+    participant   EventParticipant? @relation(fields: [participantId], references: [id])
+}
