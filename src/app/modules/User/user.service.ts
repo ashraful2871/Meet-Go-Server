@@ -1,8 +1,7 @@
-import { UserStatus, VerificationStatus } from "@prisma/client";
+import { UserRole, UserStatus, VerificationStatus } from "@prisma/client";
 import { prisma } from "../../shared/prisma";
 import ApiError from "../../Error/error";
 import { StatusCodes } from "http-status-codes";
-import { email } from "zod";
 
 const requestHost = async (payload: any, user: any) => {
   const isExistUser = await prisma.user.findFirstOrThrow({
@@ -64,6 +63,11 @@ const updateHostVerificationStatus = async (
       },
       data: {
         verificationStatus: VerificationStatus.APPROVED,
+        user: {
+          update: {
+            role: UserRole.HOST,
+          },
+        },
       },
     });
 
