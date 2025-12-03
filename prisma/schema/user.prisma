@@ -63,6 +63,7 @@ model Host {
   user                   User                  @relation(fields: [userId], references: [id])
   payments               Payment[]
   reviews                Review[]
+  events                 Event[]
 }
 
 model Admin {

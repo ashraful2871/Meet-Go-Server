@@ -17,7 +17,7 @@ export const seedAdmin = async () => {
     console.log("🔵 Creating default Admin...");
 
     // Hash admin password
-    const hashedPassword = await bcrypt.hash("admin123", 10);
+    const hashedPassword = await bcrypt.hash("123456789", 10);
 
     // Create the admin user
     const adminUser = await prisma.user.create({

@@ -18,11 +18,14 @@ model Event {
   status               EventStatus        @default(OPEN)
   createdAt            DateTime           @default(now())
   updatedAt            DateTime           @updatedAt
-  host                 User               @relation(fields: [hostId], references: [id])
+  host                 Host               @relation(fields: [hostId], references: [id])
   eventCategory        EventCategory?     @relation(fields: [categoryId], references: [id])
   eventParticipants    EventParticipant[]
   reviews              Review[]
   payments             Payment[]
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
 }
 
 model EventCategory {
