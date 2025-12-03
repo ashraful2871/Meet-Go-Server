@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import ApiError from "../../Error/error";
 import { prisma } from "../../shared/prisma";
-import { VerificationStatus } from "@prisma/client";
+import { EventStatus, VerificationStatus } from "@prisma/client";
 
 const createEvent = async (email: string, payload: any) => {
   const host = await prisma.host.findUniqueOrThrow({
@@ -34,6 +34,96 @@ const createEvent = async (email: string, payload: any) => {
 
   return event;
 };
+
+const getAllEvents = async () => {
+  return prisma.event.findMany({
+    where: { status: EventStatus.OPEN },
+    include: {
+      eventCategory: true,
+      host: true,
+      reviews: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+};
+
+const getSingleEvent = async (eventId: string) => {
+  const event = await prisma.event.findUniqueOrThrow({
+    where: { id: eventId },
+    include: {
+      eventCategory: true,
+      host: true,
+      eventParticipants: true,
+      reviews: true,
+    },
+  });
+
+  if (!event) {
+    throw new ApiError("Event not found", StatusCodes.NOT_FOUND);
+  }
+
+  return event;
+};
+
+const updateEvent = async (email: string, eventId: string, payload: any) => {
+  const event = await prisma.event.findUnique({
+    where: { id: eventId },
+  });
+
+  if (!event) {
+    throw new ApiError("Event not found", StatusCodes.NOT_FOUND);
+  }
+
+  const host = await prisma.host.findUniqueOrThrow({
+    where: { email },
+  });
+
+  // Ensure only the owner (host) can update
+  if (event.hostId !== host.id) {
+    throw new ApiError(
+      "You are not allowed to update this event",
+      StatusCodes.FORBIDDEN
+    );
+  }
+
+  const updated = await prisma.event.update({
+    where: { id: eventId },
+    data: payload,
+  });
+
+  return updated;
+};
+
+const deleteEvent = async (email: string, eventId: string) => {
+  const event = await prisma.event.findUnique({
+    where: { id: eventId },
+  });
+
+  if (!event) {
+    throw new ApiError("Event not found", StatusCodes.NOT_FOUND);
+  }
+  const host = await prisma.host.findUniqueOrThrow({
+    where: { email },
+  });
+
+  if (event.hostId !== host.id) {
+    throw new ApiError(
+      "You are not allowed to delete this event",
+      StatusCodes.FORBIDDEN
+    );
+  }
+
+  const deleted = await prisma.event.delete({
+    where: { id: eventId },
+  });
+
+  return deleted;
+};
+
 export const eventService = {
   createEvent,
+  getAllEvents,
+  getSingleEvent,
+  updateEvent,
+  deleteEvent,
 };

@@ -5,6 +5,10 @@ import { UserRole } from "@prisma/client";
 
 const router = Router();
 
+router.get("/", eventController.getAllEvents);
 router.post("/create-event", auth(UserRole.HOST), eventController.createEvent);
+router.get("/:id", eventController.getSingleEvent);
+router.patch("/:id", auth(UserRole.HOST), eventController.updateEvent);
 
+router.delete("/:id", auth(UserRole.HOST), eventController.deleteEvent);
 export const eventRoutes = router;
