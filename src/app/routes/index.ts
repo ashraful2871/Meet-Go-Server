@@ -4,6 +4,7 @@ import { userRoutes } from "../modules/User/user.routes";
 import { eventRoutes } from "../modules/Event/event.route";
 import { categoryRoutes } from "../modules/Category/category.routes";
 import { eventParticipantRoutes } from "../modules/Event-Participant/eventParticipant.route";
+import { reviewRoutes } from "../modules/Review/review.route";
 
 const router = Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes = [
   {
     path: "/event-participant",
     route: eventParticipantRoutes,
+  },
+  {
+    path: "/review",
+    route: reviewRoutes,
   },
 ];
 
