@@ -109,7 +109,7 @@ export const joinEvent = async (eventId: string, email: string) => {
       userId: user.id,
     },
   });
-
+  console.log(session);
   // 10. Return the Stripe checkout URL
   return {
     message: "Event joined successfully — redirect to Stripe",
