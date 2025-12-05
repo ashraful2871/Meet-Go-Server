@@ -5,6 +5,7 @@ import { UserRole } from "@prisma/client";
 
 const router = Router();
 
+//
 router.get("/", eventController.getAllEvents);
 router.get(
   "/host-events",
