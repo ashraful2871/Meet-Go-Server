@@ -47,6 +47,27 @@ const getAllEvents = async () => {
   });
 };
 
+const getAllHostEvent = async (email: string) => {
+  const host = await prisma.host.findUniqueOrThrow({
+    where: { email },
+  });
+
+  if (!host) {
+    throw new ApiError("Host not found", StatusCodes.NOT_FOUND);
+  }
+
+  const events = await prisma.event.findMany({
+    where: { hostId: host.id },
+    include: {
+      eventCategory: true,
+      host: true,
+      reviews: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+  return events;
+};
+
 const getSingleEvent = async (eventId: string) => {
   const event = await prisma.event.findUniqueOrThrow({
     where: { id: eventId },
@@ -123,6 +144,7 @@ const deleteEvent = async (email: string, eventId: string) => {
 export const eventService = {
   createEvent,
   getAllEvents,
+  getAllHostEvent,
   getSingleEvent,
   updateEvent,
   deleteEvent,

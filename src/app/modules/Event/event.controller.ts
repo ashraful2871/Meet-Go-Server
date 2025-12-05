@@ -28,6 +28,19 @@ const getAllEvents = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getAllHostEvents = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const { email } = req.user;
+    const result = await eventService.getAllHostEvent(email);
+
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: "Host Events fetched successfully",
+      data: result,
+    });
+  }
+);
 
 const getSingleEvent = catchAsync(async (req: Request, res: Response) => {
   const result = await eventService.getSingleEvent(req.params.id);
@@ -74,6 +87,7 @@ const deleteEvent = catchAsync(
 export const eventController = {
   createEvent,
   getAllEvents,
+  getAllHostEvents,
   getSingleEvent,
   updateEvent,
   deleteEvent,
