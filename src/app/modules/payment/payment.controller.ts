@@ -3,12 +3,12 @@ import catchAsync from "../../shared/catchAsync";
 import { stripe } from "../../helper/stripe";
 import sendResponse from "../../shared/sendResponse";
 import { paymentService } from "./payment.service";
+import config from "../../../config";
 
 const handleStripeWebhookPayment = catchAsync(
   async (req: Request, res: Response) => {
     const sig = req.headers["stripe-signature"] as string;
-    const webhookSecret =
-      "whsec_6f5d1b83bccace488539d35ead90c0af7f8966d0f4a5bf5d06a322e8724faf21";
+    const webhookSecret = config.stripe_webhook_secret || "";
 
     let event;
     try {
