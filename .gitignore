@@ -1,10 +1,14 @@
 node_modules
-dist
+# Keep environment variables out of version control
 .env
-.env.test
 
-/src/generated/prisma
+/generated/prisma
 
-/src/generated/prisma
+.vercel
 
-/src/generated/prisma
+dist/
+.env
+.env.local
+uploads/*
+!uploads/.gitkeep
+*.log
