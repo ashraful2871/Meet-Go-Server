@@ -12,6 +12,12 @@ router.get(
   auth(UserRole.HOST),
   eventController.getAllHostEvents
 );
+
+router.get(
+  "/host-booked-events",
+  auth(UserRole.HOST),
+  eventController.getAllBookedHostEvents
+);
 router.post("/create-event", auth(UserRole.HOST), eventController.createEvent);
 router.get("/:id", eventController.getSingleEvent);
 router.patch("/:id", auth(UserRole.HOST), eventController.updateEvent);
