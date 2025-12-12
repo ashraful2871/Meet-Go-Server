@@ -74,7 +74,18 @@ const updateHostVerificationStatus = async (
     return updatedHostStatus;
   }
 };
+
+const getAllRequestedHost = () => {
+  const hosts = prisma.host.findMany({
+    where: {
+      verificationStatus: VerificationStatus.PENDING,
+    },
+  });
+  return hosts;
+};
+
 export const userService = {
   requestHost,
   updateHostVerificationStatus,
+  getAllRequestedHost,
 };
