@@ -33,8 +33,20 @@ const updateHostVerificationStatus = catchAsync(
     });
   }
 );
+const getAllRequestedHost = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const result = await userService.getAllRequestedHost();
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: "Requested hosts retrieved successfully",
+      data: result,
+    });
+  }
+);
 
 export const userController = {
   requestHost,
   updateHostVerificationStatus,
+  getAllRequestedHost,
 };

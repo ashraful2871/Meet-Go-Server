@@ -28,6 +28,19 @@ const getAllEvents = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getAllBookedHostEvents = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const { email } = req.user;
+    const result = await eventService.getAllBookedHostEvents(email);
+
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: "Host Booked Events fetched successfully",
+      data: result,
+    });
+  }
+);
 const getAllHostEvents = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
     const { email } = req.user;
@@ -91,4 +104,5 @@ export const eventController = {
   getSingleEvent,
   updateEvent,
   deleteEvent,
+  getAllBookedHostEvents,
 };

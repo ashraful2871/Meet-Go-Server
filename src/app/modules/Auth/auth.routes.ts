@@ -7,7 +7,7 @@ const router = Router();
 
 router.post("/register", authController.userRegistration);
 router.post("/login", authController.login);
-
+router.post("/refresh-token", authController.refreshToken);
 router.post(
   "/change-password",
   auth(UserRole.ADMIN, UserRole.USER, UserRole.ADMIN),

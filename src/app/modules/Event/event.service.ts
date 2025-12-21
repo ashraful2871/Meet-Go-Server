@@ -37,7 +37,6 @@ const createEvent = async (email: string, payload: any) => {
 
 const getAllEvents = async () => {
   return prisma.event.findMany({
-    where: { status: EventStatus.OPEN },
     include: {
       eventCategory: true,
       host: true,
@@ -66,6 +65,32 @@ const getAllHostEvent = async (email: string) => {
     orderBy: { createdAt: "desc" },
   });
   return events;
+};
+
+const getAllBookedHostEvents = async (email: string) => {
+  const host = await prisma.host.findUniqueOrThrow({
+    where: { email },
+  });
+  if (!host) {
+    throw new ApiError("Host not found", StatusCodes.NOT_FOUND);
+  }
+  return await prisma.event.findMany({
+    where: {
+      hostId: host.id,
+      eventParticipants: {
+        some: {
+          status: EventStatus.COMPLETED,
+        },
+      },
+    },
+    include: {
+      eventCategory: true,
+      host: true,
+      reviews: true,
+      eventParticipants: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
 };
 
 const getSingleEvent = async (eventId: string) => {
@@ -98,6 +123,8 @@ const updateEvent = async (email: string, eventId: string, payload: any) => {
   const host = await prisma.host.findUniqueOrThrow({
     where: { email },
   });
+
+  console.log(event.hostId, host.id);
 
   // Ensure only the owner (host) can update
   if (event.hostId !== host.id) {
@@ -148,4 +175,5 @@ export const eventService = {
   getSingleEvent,
   updateEvent,
   deleteEvent,
+  getAllBookedHostEvents,
 };

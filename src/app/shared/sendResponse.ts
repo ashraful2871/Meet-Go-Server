@@ -1,3 +1,4 @@
+import { UserRole } from "@prisma/client";
 import { Response } from "express";
 
 const sendResponse = <T>(
@@ -11,6 +12,7 @@ const sendResponse = <T>(
       limit: number;
       total: number;
     };
+    role?: UserRole;
     data: T | null | undefined;
   }
 ) => {

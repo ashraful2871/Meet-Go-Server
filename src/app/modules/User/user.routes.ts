@@ -7,6 +7,11 @@ const router = Router();
 
 //create Host
 router.patch("/request-host", auth(UserRole.USER), userController.requestHost);
+router.get(
+  "/requested-hosts",
+  auth(UserRole.ADMIN),
+  userController.getAllRequestedHost
+);
 //update Host verification status
 router.patch(
   "/host-verification/:id",
