@@ -184,6 +184,7 @@ const getEventParticipants = async (eventId: string) => {
     },
   });
 };
+// Exporting the service functions
 
 export const eventParticipantService = {
   joinEvent,
